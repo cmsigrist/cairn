@@ -1,25 +1,55 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+// React
+import { Suspense } from "react";
+// MUI
+import { Container, Stack } from "@mui/material";
+// Components
+import ResponsiveAppBar from "./layout/ResponsiveAppBar";
+import Home from "./pages/Home";
+import Footer from "./layout/Footer";
+// Hooks
+// Utils
+import "./App.css";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { ROUTE_CHARACTERS, ROUTE_GENERATE, ROUTE_HOME } from "./utils/routes";
+import PageNotFound from "./pages/PageNotFound";
+import Characters from "./pages/Characters";
+import CharacterBackground from "./pages/CharacterBackground";
+import GenerateCharacter from "./pages/GenerateCharacter";
+
+// Types
+// Icons
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Suspense fallback="...loading app">
+      <Router basename={process.env.PUBLIC_URL}>
+        <Stack minHeight={"100vh"} direction={"column"}>
+          <ResponsiveAppBar />
+          <Container
+            maxWidth="xl"
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              flexGrow: 1,
+              height: "100%",
+            }}
+          >
+            <Routes>
+              <Route path={ROUTE_HOME} element={<Home />} />
+              <Route path={ROUTE_GENERATE} element={<GenerateCharacter />} />
+              <Route path={ROUTE_CHARACTERS} element={<Characters />} />
+              <Route
+                path={"/characters/:background"}
+                element={<CharacterBackground />}
+              />
+
+              <Route path="*" element={<PageNotFound />} />
+            </Routes>
+          </Container>
+          <Footer />
+        </Stack>
+      </Router>
+    </Suspense>
   );
 }
 
