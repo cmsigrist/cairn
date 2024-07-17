@@ -3,7 +3,7 @@ import { FC } from "react";
 import { NavLink } from "react-router-dom";
 import { width, theme } from "../styles/theme";
 import { ROUTE_HOME } from "../utils/routes";
-import lost from "../resources/cairn.svg"
+import lost from "../resources/crow_with_book.png"
 const PageNotFound: FC = () => {
   return (
     <Stack
@@ -12,7 +12,7 @@ const PageNotFound: FC = () => {
       justifyContent={"center"}
       alignItems={"center"}
     >
-      <img src={lost} alt="" style={{ width: 400 }} />
+      <img src={lost} alt="" />
 
       <Stack direction={"column"} marginLeft={4}>
         <Typography variant="h3" fontWeight={"bold"}>

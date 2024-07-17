@@ -4,7 +4,7 @@ import character_creation from "../resources/character_creation.png";
 import explore_characters from "../resources/explore.png";
 
 import { useNavigate } from "react-router-dom";
-import { ROUTE_CHARACTERS, ROUTE_GENERATE } from "../utils/routes";
+import { ROUTE_EXPLORE, ROUTE_GENERATE } from "../utils/routes";
 
 const ImageButton = styled(ButtonBase)(({ theme }) => ({
   position: "relative",
@@ -127,7 +127,7 @@ const Home: FC = () => {
           style={{
             width: "100%",
           }}
-          onClick={() => navigate(ROUTE_CHARACTERS)}
+          onClick={() => navigate(ROUTE_EXPLORE)}
         >
           <ImageSrc style={{ backgroundImage: `url(${explore_characters})` }} />
           <ImageBackdrop className="MuiImageBackdrop-root" />
@@ -143,7 +143,7 @@ const Home: FC = () => {
                 pb: (theme) => `calc(${theme.spacing(1)} + 6px)`,
               }}
             >
-              Explore Characters
+              Explore Cairn
               <ImageMarked className="MuiImageMarked-root" />
             </Typography>
           </Image>
