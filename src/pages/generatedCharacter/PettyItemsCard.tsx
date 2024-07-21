@@ -12,7 +12,7 @@ const PettyItemsCard: FC<{
       elevation={3}
       sx={{
         padding: 2,
-        width: "25%",
+        width: pettyItems.length === 0 ? "25%" : "30%",
         marginTop: 2,
         border: `1px solid ${pdfBorderColor}`,
       }}

@@ -51,7 +51,7 @@ const ExportedCharacterSheet: FC<{
         height={"98%"}
         ref={targetRef}
       >
-        <Stack width={"50%"} height={"100%"} justifyContent={"space-between"}>
+        <Stack minWidth={"25%"} width={"50%"} height={"100%"} justifyContent={"space-between"}>
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             <img src={logo} alt="" style={{ width: 85 }} />
           </Box>
@@ -76,7 +76,7 @@ const ExportedCharacterSheet: FC<{
             <img
               src={`${process.env.PUBLIC_URL}/backgrounds/${character.background.img}`}
               alt=""
-              style={{ maxWidth: "100%" }}
+              style={{ maxWidth: "100%", maxHeight: 550 }}
             />
           </Box>
           <StatsCard
@@ -97,7 +97,7 @@ const ExportedCharacterSheet: FC<{
               inventory={inventory}
               hideItems={saveWithBlankItems}
             />
-            <Stack minWidth={"35%"}>
+            <Stack flexGrow={1} minWidth={"30%"}>
               <Stack direction={"row"} marginBottom={2} spacing={1}>
                 <Paper
                   elevation={3}
@@ -152,7 +152,7 @@ const ExportedCharacterSheet: FC<{
                   border: `1px solid ${pdfBorderColor}`,
                 }}
               >
-                <Stack height={"100%"} justifyContent={"space-between"}>
+                <Stack height={"100%"}>
                   <Typography
                     marginBottom={2}
                     textAlign={"center"}

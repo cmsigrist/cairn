@@ -21,7 +21,6 @@ const GeneratedCharacter: FC<{
     setOpen(false);
   };
 
-  console.log(process.env.PUBLIC_URL)
   return (
     <>
       <ExportCharacterSheetDialog

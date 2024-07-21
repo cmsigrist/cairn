@@ -11,8 +11,9 @@ const InventoryCard: FC<{ inventory: string[]; hideItems: boolean }> = ({
       elevation={3}
       sx={{
         padding: 2,
-        minWidth: "35%",
+        minWidth: "30%",
         marginTop: 2,
+        flexGrow:1,
         border: `1px solid ${pdfBorderColor}`,
       }}
     >
