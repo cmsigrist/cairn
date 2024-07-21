@@ -187,7 +187,7 @@ const ExportedCharacterSheet: FC<{
                   border: `1px solid ${pdfBorderColor}`,
                 }}
               >
-                <Stack height={"100%"} justifyContent={"space-between"}>
+                <Stack height={"100%"}>
                   <Typography
                     marginBottom={2}
                     textAlign={"center"}
@@ -195,7 +195,7 @@ const ExportedCharacterSheet: FC<{
                   >
                     Bond
                   </Typography>
-                  <Typography>{character.bond}</Typography>
+                  <Typography justifySelf={"center"}>{character.bond}</Typography>
                 </Stack>
               </Paper>
               <Paper
@@ -207,7 +207,7 @@ const ExportedCharacterSheet: FC<{
                   border: `1px solid ${pdfBorderColor}`,
                 }}
               >
-                <Stack height={"100%"} justifyContent={"space-between"}>
+                <Stack height={"100%"}>
                   <Typography
                     marginBottom={2}
                     textAlign={"center"}
@@ -215,7 +215,7 @@ const ExportedCharacterSheet: FC<{
                   >
                     Omen
                   </Typography>
-                  <Typography>{character.omen}</Typography>
+                  <Typography justifySelf={"center"}>{character.omen}</Typography>
                 </Stack>
               </Paper>
             </Stack>
