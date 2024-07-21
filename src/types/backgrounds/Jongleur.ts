@@ -95,5 +95,5 @@ years to master the arcane when you’ve already got real magic inside?`,
   ],
   startingGold: { die: Die.d6, number: 3 },
   tables: [table1, table2],
-  img: "/backgrounds/jongleur.png",
+  img: "jongleur.png",
 };

@@ -93,5 +93,5 @@ death. You know that one day you will lose. You look forward to it.`,
   ],
   startingGold: { die: Die.d6, number: 3 },
   tables: [table1, table2],
-  img: "/backgrounds/prowler.png",
+  img: "prowler.png",
 };

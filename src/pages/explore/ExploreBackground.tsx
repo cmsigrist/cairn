@@ -49,7 +49,7 @@ const ExploreBackground: FC = () => {
               </Typography>
               <Box>
                 <img
-                  src={characterBackground.img}
+                  src={`${process.env.PUBLIC_URL}/backgrounds/${characterBackground.img}`}
                   alt=""
                   style={{ maxHeight: 700 }}
                 />

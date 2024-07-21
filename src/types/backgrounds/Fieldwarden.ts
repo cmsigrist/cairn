@@ -93,5 +93,5 @@ Roll a second time on the Bonds table.`,
   ],
   startingGold: { die: Die.d6, number: 3 },
   tables: [table1, table2],
-  img: "/backgrounds/fieldwarden.png",
+  img: "fieldwarden.png",
 };

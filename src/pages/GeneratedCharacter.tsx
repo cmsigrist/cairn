@@ -51,7 +51,7 @@ const GeneratedCharacter: FC<{
             </Typography>
             <Box>
               <img
-                src={character.background.img}
+                src={`${process.env.PUBLIC_URL}/backgrounds/${character.background.img}`}
                 alt=""
                 style={{ maxHeight: 700 }}
               />

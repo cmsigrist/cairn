@@ -74,7 +74,7 @@ const ExportedCharacterSheet: FC<{
           </Stack>
           <Box marginBottom={2}>
             <img
-              src={character.background.img}
+              src={`${process.env.PUBLIC_URL}/backgrounds/${character.background.img}`}
               alt=""
               style={{ maxWidth: "100%" }}
             />

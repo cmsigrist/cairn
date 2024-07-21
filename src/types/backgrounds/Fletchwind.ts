@@ -85,5 +85,5 @@ quick death.`,
   ],
   startingGold: { die: Die.d6, number: 3 },
   tables: [table1, table2],
-  img: "/backgrounds/fletchwind.png",
+  img: "fletchwind.png",
 };

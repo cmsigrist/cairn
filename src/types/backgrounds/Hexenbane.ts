@@ -94,5 +94,5 @@ tread, unyielding and unbroken.`,
   ],
   startingGold: { die: Die.d6, number: 3 },
   tables: [table1, table2],
-  img: "/backgrounds/hexenbane.png",
+  img: "hexenbane.png",
 };

@@ -91,5 +91,5 @@ workshop, the laws that govern this world are warped to suit your needs.`,
   ],
   startingGold: { die: Die.d6, number: 3 },
   tables: [table1, table2],
-  img: "/backgrounds/aurifex.png",
+  img: "aurifex.png",
 };

@@ -94,5 +94,5 @@ gift of life, we must honor its finale as well.`,
   ],
   startingGold: { die: Die.d6, number: 3 },
   tables: [table1, table2],
-  img: "/backgrounds/bonekeeper.png",
+  img: "bonekeeper.png",
 };

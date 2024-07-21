@@ -82,5 +82,5 @@ Oath cannot be broken. The Guard always finds their own.`,
   ],
   startingGold: { die: Die.d6, number: 3 },
   tables: [table1, table2],
-  img: "/backgrounds/marchguard.png"
+  img: "marchguard.png"
 };

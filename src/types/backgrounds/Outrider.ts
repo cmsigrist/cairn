@@ -94,5 +94,5 @@ Yours is not a solitary path, however: you’ll always have your horse.`,
   ],
   startingGold: { die: Die.d6, number: 3 },
   tables: [table1, table2],
-  img: "/backgrounds/outrider.png",
+  img: "outrider.png",
 };
