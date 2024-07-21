@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/cairn/static/css/main.f855e6bc.css",
+    "main.js": "/cairn/static/js/main.12d6e109.js",
+    "static/js/213.e30b388a.chunk.js": "/cairn/static/js/213.e30b388a.chunk.js",
+    "static/js/732.be404ac1.chunk.js": "/cairn/static/js/732.be404ac1.chunk.js",
+    "static/js/453.05ec6c3f.chunk.js": "/cairn/static/js/453.05ec6c3f.chunk.js",
+    "static/media/cairn.svg": "/cairn/static/media/cairn.3d131cea48c6222349bb414c450ab1a4.svg",
+    "static/media/character_creation.png": "/cairn/static/media/character_creation.85b7134a76df02192c8a.png",
+    "static/media/explore.png": "/cairn/static/media/explore.03a17fdeb252cd4d257d.png",
+    "static/media/crow_with_book.png": "/cairn/static/media/crow_with_book.7d45ecbf311864a06a32.png",
+    "static/media/Cairn-2e-Compatible.jpg": "/cairn/static/media/Cairn-2e-Compatible.7524d6fd9a1b7abf431f.jpg",
+    "static/media/cairn_logo_black_white_border.png": "/cairn/static/media/cairn_logo_black_white_border.f239e8d0383fe036cb11.png",
+    "index.html": "/cairn/index.html",
+    "main.f855e6bc.css.map": "/cairn/static/css/main.f855e6bc.css.map",
+    "main.12d6e109.js.map": "/cairn/static/js/main.12d6e109.js.map",
+    "213.e30b388a.chunk.js.map": "/cairn/static/js/213.e30b388a.chunk.js.map",
+    "732.be404ac1.chunk.js.map": "/cairn/static/js/732.be404ac1.chunk.js.map",
+    "453.05ec6c3f.chunk.js.map": "/cairn/static/js/453.05ec6c3f.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f855e6bc.css",
+    "static/js/main.12d6e109.js"
+  ]
+}
