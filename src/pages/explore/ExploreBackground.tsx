@@ -1,7 +1,18 @@
-import { FC, Fragment, useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { BackgroundEnum } from "../../types/backgroundEnum";
-import { Stack, Typography, Box, Paper, Grid } from "@mui/material";
+import {
+  Stack,
+  Typography,
+  Box,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from "@mui/material";
 import { AllBackgrounds, BackgroundOptions } from "../../types/backgrounds";
 
 const ExploreBackground: FC = () => {
@@ -45,100 +56,143 @@ const ExploreBackground: FC = () => {
               </Box>
               <Paper
                 elevation={3}
-                sx={{ padding: 2, maxWidth: 500, marginTop: 2 }}
+                sx={{ padding: 2, maxWidth: 500, marginY: 2 }}
               >
-                <Typography
-                  textAlign={"center"}
-                  fontWeight="bold"
-                  marginBottom={2}
-                >
-                  Names
-                </Typography>
-                <Stack
-                  justifyContent={"center"}
-                  direction="row"
-                  marginBottom={2}
-                  width={"100%"}
-                  spacing={1}
-                  flexWrap="wrap"
-                >
-                  {characterBackground.playerNames.map((name, i) => (
-                    <Typography>{`${name}${
-                      i !== characterBackground.playerNames.length - 1
-                        ? ", "
-                        : " "
-                    }`}</Typography>
-                  ))}
-                </Stack>
-                <Stack height={"100%"} spacing={2}>
-                  <Box>
-                    <Typography
-                      marginBottom={2}
-                      textAlign={"center"}
-                      fontWeight={"bold"}
-                    >
-                      Starting Items
-                    </Typography>
+                <Stack direction="row">
+                  <Stack height={"100%"} spacing={2} width={"50%"}>
                     <Box>
-                      {characterBackground.startingGears.map((item, i) => (
-                        <Typography key={i}>• {item}</Typography>
-                      ))}
+                      <Typography
+                        marginBottom={2}
+                        textAlign={"center"}
+                        fontWeight={"bold"}
+                      >
+                        Starting Items
+                      </Typography>
+                      <Box>
+                        <Typography>
+                          {`• ${characterBackground.startingGold.number}d${characterBackground.startingGold.die} Gold Pieces`}{" "}
+                        </Typography>
+                        {characterBackground.startingGears.map((item, i) => (
+                          <Typography key={i}>• {item}</Typography>
+                        ))}
+                      </Box>
                     </Box>
-                  </Box>
-
-                  <Stack direction="row" spacing={1} marginBottom={2}>
-                    <Typography fontWeight="bold" variant="h6">
-                      Gold:
+                  </Stack>
+                  <Stack height={"100%"} spacing={2} width={"50%"}>
+                    <Typography
+                      textAlign={"center"}
+                      fontWeight="bold"
+                      marginBottom={2}
+                    >
+                      Names
                     </Typography>
-                    <Typography variant="h6">{`${characterBackground.startingGold.number}d${characterBackground.startingGold.die}`}</Typography>
+                    <Stack direction="row" justifyContent={"space-evenly"}>
+                      <Box>
+                        {characterBackground.playerNames
+                          .slice(0, 5)
+                          .map((name, i) => (
+                            <Typography key={i}>• {name}</Typography>
+                          ))}
+                      </Box>
+                      <Box>
+                        {characterBackground.playerNames
+                          .slice(5, 10)
+                          .map((name, i) => (
+                            <Typography key={i}>• {name}</Typography>
+                          ))}
+                      </Box>
+                    </Stack>
                   </Stack>
                 </Stack>
               </Paper>
             </Stack>
 
-            <Stack>
-              <Paper elevation={3} sx={{ padding: 2 }}>
-                <Stack justifyContent={"space-between"} spacing={1}>
-                  <Typography textAlign={"center"} fontWeight={"bold"}>
-                    {characterBackground.tables[0].question} (d6)
-                  </Typography>
-                  <Grid container rowSpacing={1}>
-                    {characterBackground.tables[0].answers.map((answer, i) => (
-                      <Fragment key={i}>
-                        <Grid item xs={1}>
-                          <Typography fontWeight={"bold"}>{i + 1}</Typography>
-                        </Grid>
-                        <Grid item xs={11}>
-                          <Typography>{answer}</Typography>
-                        </Grid>
-                      </Fragment>
-                    ))}
-                  </Grid>
-                </Stack>
-              </Paper>
-              <Paper elevation={3} sx={{ padding: 2, marginTop: 2 }}>
-                <Stack justifyContent={"space-between"} spacing={1}>
-                  <Typography textAlign={"center"} fontWeight={"bold"}>
-                    {characterBackground.tables[1].question} (d6)
-                  </Typography>
-                  <Grid container rowSpacing={1}>
-                    {characterBackground.tables[1].answers.map((answer, i) => (
-                      <Fragment key={i}>
-                        <Grid item xs={1}>
-                          <Typography fontWeight={"bold"}>{i + 1}</Typography>
-                        </Grid>
-                        <Grid item xs={2}>
+            <Stack spacing={4}>
+              <Paper sx={{ width: "100%" }}>
+                <TableContainer>
+                  <Table stickyHeader aria-label="sticky table">
+                    <TableHead>
+                      <TableRow>
+                        <TableCell align="left" colSpan={1}>
+                          <Typography fontWeight={"bold"}>d6</Typography>
+                        </TableCell>
+                        <TableCell align="center" colSpan={2}>
                           <Typography fontWeight={"bold"}>
-                            {answer.name}:
+                            {characterBackground.tables[0].question}
                           </Typography>
-                        </Grid>
-                        <Grid item xs={9}>
-                          <Typography>{answer.description}</Typography>
-                        </Grid>
-                      </Fragment>
-                    ))}
-                  </Grid>
-                </Stack>
+                        </TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {characterBackground.tables[0].answers.map(
+                        (answer, i) => {
+                          return (
+                            <TableRow
+                              hover
+                              role="checkbox"
+                              tabIndex={-1}
+                              key={i}
+                            >
+                              <TableCell align={"left"}>
+                                <Typography fontWeight={"bold"}>
+                                  {i + 1}
+                                </Typography>
+                              </TableCell>
+                              <TableCell align={"left"}>{answer}</TableCell>
+                            </TableRow>
+                          );
+                        }
+                      )}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </Paper>
+
+              <Paper sx={{ width: "100%" }}>
+                <TableContainer>
+                  <Table stickyHeader aria-label="sticky table">
+                    <TableHead>
+                      <TableRow>
+                        <TableCell align="left" colSpan={1}>
+                          <Typography fontWeight={"bold"}>d6</Typography>
+                        </TableCell>
+                        <TableCell align="center" colSpan={2}>
+                          <Typography fontWeight={"bold"}>
+                            {characterBackground.tables[1].question}
+                          </Typography>
+                        </TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {characterBackground.tables[1].answers.map(
+                        ({ name, description }, i) => {
+                          return (
+                            <TableRow
+                              hover
+                              role="checkbox"
+                              tabIndex={-1}
+                              key={i}
+                            >
+                              <TableCell align={"left"}>
+                                <Typography fontWeight={"bold"}>
+                                  {i + 1}
+                                </Typography>
+                              </TableCell>
+                              <TableCell align={"left"}>
+                                <Typography fontWeight={"bold"}>
+                                  {name}
+                                </Typography>
+                              </TableCell>
+                              <TableCell align={"left"}>
+                                {description}
+                              </TableCell>
+                            </TableRow>
+                          );
+                        }
+                      )}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
               </Paper>
             </Stack>
           </Stack>

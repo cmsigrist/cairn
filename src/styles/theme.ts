@@ -21,3 +21,5 @@ export const theme = createTheme({
 });
 
 export const width = { xs: "95%", lg: "80%" };
+
+export const pdfBorderColor = "#b5b5b5"
