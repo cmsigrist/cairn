@@ -46,9 +46,9 @@ export const generateCharacter = () => {
     img: backgroundOptions.img,
   };
   const attributes: Attributes = {
-    strength: rand(Die.d6),
-    dexterity: rand(Die.d6),
-    willpower: rand(Die.d6),
+    strength: rand(Die.d6) + rand(Die.d6) + rand(Die.d6),
+    dexterity: rand(Die.d6) + rand(Die.d6) + rand(Die.d6),
+    willpower: rand(Die.d6) + rand(Die.d6) + rand(Die.d6),
   };
   const hitProtection = rand(Die.d6);
   const traits: Traits = {
