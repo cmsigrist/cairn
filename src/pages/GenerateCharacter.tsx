@@ -1,16 +1,17 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useCallback, useEffect, useState } from "react";
 import { generateCharacter } from "../utils/roll";
 import GeneratedCharacter from "./GeneratedCharacter";
 import { Stack } from "@mui/material";
 
 const GenerateCharacter: FC = () => {
   const [character, setCharacter] = useState(generateCharacter());
-  const handleKeyDown = (event: any) => {
+
+  const handleKeyDown = useCallback((event: any) => {
     if (event.key === "F5") {
       event.preventDefault();
-      setCharacter(generateCharacter())
+      setCharacter(generateCharacter());
     }
-  };
+  }, [setCharacter]);
 
   useEffect(() => {
     // Add the event listener
@@ -21,6 +22,7 @@ const GenerateCharacter: FC = () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, []);
+
   return (
     <Stack
       direction="row"
@@ -29,7 +31,10 @@ const GenerateCharacter: FC = () => {
       justifyContent={"center"}
       alignSelf={"center"}
     >
-      <GeneratedCharacter character={character} />
+      <GeneratedCharacter
+        character={character}
+        generateCharacter={generateCharacter}
+      />
     </Stack>
   );
 };

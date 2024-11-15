@@ -1,8 +1,9 @@
-import { FC } from "react";
+import { FC, useCallback, useState } from "react";
 import { Character } from "../types/character";
 import { Box, Button, Paper, Stack, Typography } from "@mui/material";
 import { BackgroundEnum } from "../types/backgroundEnum";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
+import AutorenewIcon from "@mui/icons-material/Autorenew";
 import React from "react";
 import TraitsCard from "./generatedCharacter/TraitsCard";
 import StatsCard from "./generatedCharacter/StatsCard";
@@ -10,48 +11,65 @@ import ExportCharacterSheetDialog from "./generatedCharacter/ExportCharacterShee
 
 const GeneratedCharacter: FC<{
   character: Character;
-}> = ({ character }) => {
+  generateCharacter: () => Character;
+}> = ({ character, generateCharacter }) => {
   const [open, setOpen] = React.useState(false);
+  const [currentCharacter, setCurrentCharacter] = useState(character)
 
-  const handleClickOpen = () => {
+  const handleClickOpen = useCallback(() => {
     setOpen(true);
-  };
+  }, [setOpen]);
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     setOpen(false);
-  };
+  }, [setOpen]);
+
+  const handleGenerateCharacter = useCallback(() => {
+    setCurrentCharacter(generateCharacter())
+  }, [setCurrentCharacter])
 
   return (
     <>
       <ExportCharacterSheetDialog
         open={open}
         handleClose={handleClose}
-        character={character}
+        character={currentCharacter}
       />
       <Stack marginY={4}>
         <Stack direction="row" justifyContent={"space-between"}>
           <Typography variant="h2">
-            {BackgroundEnum[character.background.name].replace("_", " ")}
+            {BackgroundEnum[currentCharacter.background.name].replace("_", " ")}
           </Typography>
+          <Stack direction="row" spacing={2}>
           <Box>
-            <Button
-              variant="outlined"
-              startIcon={<FileDownloadIcon />}
-              onClick={handleClickOpen}
-            >
-              Export
-            </Button>
-          </Box>
+              <Button
+                variant="outlined"
+                startIcon={<AutorenewIcon />}
+                onClick={handleGenerateCharacter}
+              >
+                Generate
+              </Button>
+            </Box>
+            <Box>
+              <Button
+                variant="outlined"
+                startIcon={<FileDownloadIcon />}
+                onClick={handleClickOpen}
+              >
+                Export
+              </Button>
+            </Box>
+          </Stack>
         </Stack>
 
         <Stack marginTop={2} direction={"row"} spacing={8}>
           <Stack>
             <Typography sx={{ maxWidth: 500 }}>
-              {character.background.description}
+              {currentCharacter.background.description}
             </Typography>
             <Box>
               <img
-                src={`${process.env.PUBLIC_URL}/backgrounds/${character.background.img}`}
+                src={`${process.env.PUBLIC_URL}/backgrounds/${currentCharacter.background.img}`}
                 alt=""
                 style={{ maxHeight: 700 }}
               />
@@ -62,17 +80,17 @@ const GeneratedCharacter: FC<{
             <Stack direction="row" marginBottom={2}>
               <Typography fontWeight="bold">Name:</Typography>
               <Typography marginLeft={1}>
-                {character.background.playerName}
+                {currentCharacter.background.playerName}
               </Typography>
               <Typography marginLeft={4} fontWeight="bold">
                 Age:
               </Typography>
-              <Typography marginLeft={1}>{character.age}</Typography>
+              <Typography marginLeft={1}>{currentCharacter.age}</Typography>
             </Stack>
 
             <StatsCard
-              attributes={character.attributes}
-              hitProtection={character.hitProtection}
+              attributes={currentCharacter.attributes}
+              hitProtection={currentCharacter.hitProtection}
               width={50}
               height={70}
             />
@@ -97,7 +115,7 @@ const GeneratedCharacter: FC<{
                       Starting Items
                     </Typography>
                     <Box>
-                      {character.background.startingGears.map((item, i) => (
+                      {currentCharacter.background.startingGears.map((item, i) => (
                         <Typography key={i}>• {item}</Typography>
                       ))}
                     </Box>
@@ -108,12 +126,12 @@ const GeneratedCharacter: FC<{
                       Gold Pieces:
                     </Typography>
                     <Typography variant="h6">
-                      {character.background.startingGold}
+                      {currentCharacter.background.startingGold}
                     </Typography>
                   </Stack>
                 </Stack>
               </Paper>
-              <TraitsCard traits={character.traits} />
+              <TraitsCard traits={currentCharacter.traits} />
               <Stack>
                 <Paper elevation={3} sx={{ padding: 2 }}>
                   <Stack height={"100%"} justifyContent={"space-between"}>
@@ -124,7 +142,7 @@ const GeneratedCharacter: FC<{
                     >
                       Bond
                     </Typography>
-                    <Typography>{character.bond}</Typography>
+                    <Typography>{currentCharacter.bond}</Typography>
                   </Stack>
                 </Paper>
                 <Paper elevation={3} sx={{ padding: 2, marginTop: 2 }}>
@@ -136,7 +154,7 @@ const GeneratedCharacter: FC<{
                     >
                       Omen
                     </Typography>
-                    <Typography>{character.omen}</Typography>
+                    <Typography>{currentCharacter.omen}</Typography>
                   </Stack>
                 </Paper>
               </Stack>
@@ -146,24 +164,24 @@ const GeneratedCharacter: FC<{
               <Paper elevation={3} sx={{ padding: 2, marginTop: 2 }}>
                 <Stack justifyContent={"space-between"} spacing={1}>
                   <Typography textAlign={"center"} fontWeight={"bold"}>
-                    {character.background.tables[0].question}
+                    {currentCharacter.background.tables[0].question}
                   </Typography>
                   <Typography>
-                    {character.background.tables[0].answer}
+                    {currentCharacter.background.tables[0].answer}
                   </Typography>
                 </Stack>
               </Paper>
               <Paper elevation={3} sx={{ padding: 2, marginTop: 2 }}>
                 <Stack justifyContent={"space-between"} spacing={1}>
                   <Typography textAlign={"center"} fontWeight={"bold"}>
-                    {character.background.tables[1].question}
+                    {currentCharacter.background.tables[1].question}
                   </Typography>
                   <Stack direction={"row"} spacing={1}>
                     <Typography fontWeight={"bold"}>
-                      {character.background.tables[1].answer.name}:
+                      {currentCharacter.background.tables[1].answer.name}:
                     </Typography>
                     <Typography>
-                      {character.background.tables[1].answer.description}
+                      {currentCharacter.background.tables[1].answer.description}
                     </Typography>
                   </Stack>
                 </Stack>
