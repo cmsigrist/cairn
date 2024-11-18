@@ -22,24 +22,17 @@ const ExportCharacterSheetDialog: FC<{
   handleClose: () => void;
   character: Character;
 }> = ({ open, handleClose, character }) => {
-  const [saveWithBlankItems, setSaveWithBlankItems] = useState(false);
+  const [simpleLayout, setSimpleLayout] = useState(false)
   const [saving, setIsSaving] = useState(false);
-  let dateTime = new Date();
-  const { targetRef } = usePDF({
-    filename: `${BackgroundEnum[character.background.name].replace(
-      "_",
-      " "
-    )}_${dateTime}`,
-    page: { orientation: "landscape", margin: Margin.SMALL },
-  });
+
+  const dateTime = new Date().toISOString();
+
+  const { targetRef } = usePDF();
 
   const handleDownload = async () => {
     setIsSaving(true);
     await generatePDF(targetRef, {
-      filename: `${BackgroundEnum[character.background.name].replace(
-        "_",
-        " "
-      )}_${dateTime}`,
+      filename: `${BackgroundEnum[character.background.name]}_${dateTime}`,
       page: { orientation: "landscape", margin: Margin.SMALL },
     });
     setIsSaving(false);
@@ -61,17 +54,17 @@ const ExportCharacterSheetDialog: FC<{
           <FormControlLabel
             control={
               <Switch
-                checked={saveWithBlankItems}
-                onChange={() => setSaveWithBlankItems(!saveWithBlankItems)}
+                checked={simpleLayout}
+                onChange={() => setSimpleLayout(!simpleLayout)}
               />
             }
-            label="Export Without Inventory Items"
+            label="Layout Without Background"
           />
         </FormGroup>
         <ExportedCharacterSheet
           targetRef={targetRef}
           character={character}
-          saveWithBlankItems={saveWithBlankItems}
+          simpleLayout={simpleLayout}
         />
       </DialogContent>
       <DialogActions>

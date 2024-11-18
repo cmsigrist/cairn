@@ -6,18 +6,16 @@ import { pdfBorderColor } from "../../styles/theme";
 const StatsCard: FC<{
   attributes: Attributes;
   hitProtection: number;
-  isExport?: boolean;
   width?: number | string;
   height?: number | string;
-}> = ({ attributes, hitProtection, isExport = false, width, height }) => {
+}> = ({ attributes, hitProtection, width, height }) => {
   return (
     <Grid container spacing={2}>
-      <Grid item xs={isExport ? 3 : undefined}>
+      <Grid item>
         <Paper
           elevation={3}
           sx={{
             padding: 2,
-            border: isExport ? `1px solid ${pdfBorderColor}` : undefined,
             width,
             height,
           }}
@@ -32,12 +30,11 @@ const StatsCard: FC<{
           </Stack>
         </Paper>
       </Grid>
-      <Grid item xs={isExport ? 3 : undefined}>
+      <Grid item>
         <Paper
           elevation={3}
           sx={{
             padding: 2,
-            border: isExport ? `1px solid ${pdfBorderColor}` : undefined,
             width,
             height,
           }}
@@ -52,12 +49,11 @@ const StatsCard: FC<{
           </Stack>
         </Paper>
       </Grid>
-      <Grid item xs={isExport ? 3 : undefined}>
+      <Grid item>
         <Paper
           elevation={3}
           sx={{
             padding: 2,
-            border: isExport ? `1px solid ${pdfBorderColor}` : undefined,
             width,
             height,
           }}
@@ -72,12 +68,11 @@ const StatsCard: FC<{
           </Stack>
         </Paper>
       </Grid>
-      <Grid item xs={isExport ? 3 : undefined}>
+      <Grid item>
         <Paper
           elevation={3}
           sx={{
             padding: 2,
-            border: isExport ? `1px solid ${pdfBorderColor}` : undefined,
             width,
             height,
           }}
