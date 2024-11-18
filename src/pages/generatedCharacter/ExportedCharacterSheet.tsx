@@ -1,38 +1,22 @@
 import { FC } from "react";
 import { Character } from "../../types/character";
-import {
-  Stack,
-  Typography,
-  Box,
-  Grid,
-  Paper,
-  Divider,
-  useTheme,
-} from "@mui/material";
+import { Stack, Typography, Box, Paper } from "@mui/material";
 import { BackgroundEnum } from "../../types/backgroundEnum";
 import logo from "../../resources/Cairn-2e-Compatible.jpg";
-import TraitsCard from "./TraitsCard";
-import StatsCard from "./StatsCard";
-import InventoryCard from "./InventoryCard";
-import PettyItemsCard from "./PettyItemsCard";
-import CropSquareIcon from "@mui/icons-material/CropSquare";
-import { pdfBorderColor } from "../../styles/theme";
+
+import { Stats } from "./exportedCharacterSheet/Stats";
+import { LayoutWithBackgroundCharacterSheet } from "./exportedCharacterSheet/LayoutWithBackgroundCharacterSheet";
+import { SimpleLayoutCharacterSheet } from "./exportedCharacterSheet/SimpleLayoutCharacterSheet";
 
 const ExportedCharacterSheet: FC<{
   character: Character;
-  saveWithBlankItems: boolean;
   targetRef: React.MutableRefObject<any>;
-}> = ({ character, saveWithBlankItems, targetRef }) => {
+  simpleLayout: boolean
+}> = ({ character, targetRef, simpleLayout }) => {
   const a4Width = 296;
   const a4Height = 210; // 200
   const a4Padding = 5; // 5
   const ratio = 1.2;
-  const inventory = character.background.startingGears.filter(
-    (item) => !item.includes("petty")
-  );
-  const pettyItems = character.background.startingGears.filter((item) =>
-    item.includes("petty")
-  );
 
   return (
     <Paper
@@ -51,17 +35,36 @@ const ExportedCharacterSheet: FC<{
         height={"98%"}
         ref={targetRef}
       >
-        <Stack minWidth={"25%"} width={"50%"} height={"100%"} justifyContent={"space-between"}>
-          <Box sx={{ display: { xs: "none", md: "flex" } }}>
-            <img src={logo} alt="" style={{ width: 85 }} />
-          </Box>
-          <Stack direction="row" marginTop={2}>
-            <Typography fontWeight="bold">Background:</Typography>
-            <Typography marginLeft={1}>
+        <Stack width={"30%"} height={"100%"} justifyContent={"space-between"}>
+          <Stack direction="row" width={"100%"} alignItems={"center"}>
+            <Box>
+              <img src={logo} alt="" style={{ width: 85 }} />
+            </Box>
+
+            <Typography variant="h4" marginLeft={3} fontWeight="bold">
               {BackgroundEnum[character.background.name].replace("_", " ")}
             </Typography>
           </Stack>
-          <Typography>{character.background.description}</Typography>
+
+          <Stack
+            direction={"row"}
+            marginTop={2}
+            width={"100%"}
+            alignItems={"center"}
+          >
+            <Box width={"60%"}>
+              <Typography>{character.background.description}</Typography>
+            </Box>
+
+            <Box width={"40%"}>
+              <img
+                src={`${process.env.PUBLIC_URL}/backgrounds/no_blank_space/${character.background.img}`}
+                alt=""
+                style={{ maxWidth: "100%", maxHeight: 200 }}
+              />
+            </Box>
+          </Stack>
+
           <Stack direction="row" marginTop={1}>
             <Typography fontWeight="bold">Name:</Typography>
             <Typography marginLeft={1}>
@@ -72,194 +75,12 @@ const ExportedCharacterSheet: FC<{
             </Typography>
             <Typography marginLeft={1}>{character.age}</Typography>
           </Stack>
-          <Box marginBottom={2}>
-            <img
-              src={`${process.env.PUBLIC_URL}/backgrounds/${character.background.img}`}
-              alt=""
-              style={{ maxWidth: "100%", maxHeight: 550 }}
-            />
-          </Box>
-          <StatsCard
-            attributes={character.attributes}
-            hitProtection={character.hitProtection}
-            isExport
-          />
+
+          <Stats />
         </Stack>
 
-        <Stack justifyContent={"space-between"}>
-          <Stack direction={"row"} spacing={2} justifyContent={"space-between"}>
-            <PettyItemsCard
-              pettyItems={pettyItems}
-              goldPieces={character.background.startingGold}
-              hideItems={saveWithBlankItems}
-            />
-            <InventoryCard
-              inventory={inventory}
-              hideItems={saveWithBlankItems}
-            />
-            <Stack flexGrow={1} minWidth={"30%"}>
-              <Stack direction={"row"} marginBottom={2} spacing={1}>
-                <Paper
-                  elevation={3}
-                  sx={{
-                    padding: 2,
-                    width: "50%",
-                    border: `1px solid ${pdfBorderColor}`,
-                  }}
-                >
-                  <Stack
-                    direction={"row"}
-                    alignItems={"center"}
-                    justifyContent="space-evenly"
-                  >
-                    <Typography sx={{ marginTop: 0.6 }} fontWeight={"bold"}>
-                      Deprived:
-                    </Typography>
-                    <CropSquareIcon />
-                  </Stack>
-                </Paper>
-                <Paper
-                  elevation={3}
-                  sx={{
-                    padding: 2,
-                    width: "50%",
-                    border: `1px solid ${pdfBorderColor}`,
-                  }}
-                >
-                  <Stack
-                    direction={"row"}
-                    alignItems={"center"}
-                    justifyContent="space-evenly"
-                  >
-                    <Typography
-                      sx={{ marginTop: 0.6, marginRight: 1 }}
-                      fontWeight={"bold"}
-                    >
-                      Armor:
-                    </Typography>
-                    <Box width="100%" marginTop={2}>
-                      <Divider />
-                    </Box>
-                  </Stack>
-                </Paper>
-              </Stack>
-              <Paper
-                elevation={3}
-                sx={{
-                  padding: 2,
-                  flexGrow: 1,
-                  minWidth: "35%",
-                  border: `1px solid ${pdfBorderColor}`,
-                }}
-              >
-                <Stack height={"100%"}>
-                  <Typography
-                    marginBottom={2}
-                    textAlign={"center"}
-                    fontWeight={"bold"}
-                  >
-                    Notes
-                  </Typography>
-                  <Box>
-                    {Array.from(Array(7).keys()).map((i) => (
-                      <Stack key={i} marginTop={3}>
-                        <Divider />
-                      </Stack>
-                    ))}
-                  </Box>
-                </Stack>
-              </Paper>
-            </Stack>
-          </Stack>
-          <Stack
-            direction={"row"}
-            spacing={2}
-            marginTop={2}
-            justifyContent={"space-between"}
-          >
-            <TraitsCard traits={character.traits} isExport />
-            <Stack>
-              <Paper
-                elevation={3}
-                sx={{
-                  padding: 2,
-                  flexGrow: 1,
-                  border: `1px solid ${pdfBorderColor}`,
-                }}
-              >
-                <Stack height={"100%"}>
-                  <Typography
-                    marginBottom={2}
-                    textAlign={"center"}
-                    fontWeight={"bold"}
-                  >
-                    Bond
-                  </Typography>
-                  <Typography justifySelf={"center"}>{character.bond}</Typography>
-                </Stack>
-              </Paper>
-              <Paper
-                elevation={3}
-                sx={{
-                  padding: 2,
-                  marginTop: 2,
-                  flexGrow: 1,
-                  border: `1px solid ${pdfBorderColor}`,
-                }}
-              >
-                <Stack height={"100%"}>
-                  <Typography
-                    marginBottom={2}
-                    textAlign={"center"}
-                    fontWeight={"bold"}
-                  >
-                    Omen
-                  </Typography>
-                  <Typography justifySelf={"center"}>{character.omen}</Typography>
-                </Stack>
-              </Paper>
-            </Stack>
-          </Stack>
-          <Stack>
-            <Paper
-              elevation={3}
-              sx={{
-                padding: 2,
-                marginTop: 2,
-                border: `1px solid ${pdfBorderColor}`,
-              }}
-            >
-              <Stack justifyContent={"space-between"} spacing={1}>
-                <Typography textAlign={"center"} fontWeight={"bold"}>
-                  {character.background.tables[0].question}
-                </Typography>
-                <Typography>{character.background.tables[0].answer}</Typography>
-              </Stack>
-            </Paper>
-            <Paper
-              elevation={3}
-              sx={{
-                padding: 2,
-                marginTop: 2,
-                border: `1px solid ${pdfBorderColor}`,
-              }}
-            >
-              <Stack justifyContent={"space-between"} spacing={1}>
-                <Typography textAlign={"center"} fontWeight={"bold"}>
-                  {character.background.tables[1].question}
-                </Typography>
-                <Stack direction={"row"} spacing={1}>
-                  <Typography fontWeight={"bold"}>
-                    {character.background.tables[1].answer.name}:
-                  </Typography>
-                  <Typography>
-                    {character.background.tables[1].answer.description}
-                  </Typography>
-                </Stack>
-              </Stack>
-            </Paper>
-          </Stack>
-        </Stack>
+        {!simpleLayout && <LayoutWithBackgroundCharacterSheet character={character} />}
+        {simpleLayout && <SimpleLayoutCharacterSheet character={character} />}
       </Stack>
     </Paper>
   );
