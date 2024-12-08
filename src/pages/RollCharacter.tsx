@@ -1,4 +1,4 @@
-import { FC, useCallback, useEffect, useState } from "react";
+import { FC, useCallback, useEffect, useMemo, useState } from "react";
 import { Box, Button, Fade, Stack, Typography } from "@mui/material";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
@@ -17,15 +17,27 @@ import {
 import RolledCharacter from "./RolledCharacter";
 import { Character } from "../types/character";
 import { CharacterHistoryButton } from "./rolledCharacter/CharacterHistoryButton";
-import { getBackgroundName } from "../utils/background";
+import { getBackgroundEnumFromIndex, getBackgroundName } from "../utils/background";
 import { RerollCharacterButton } from "./rolledCharacter/RerollCharacterButton";
 import { RerollOptionsEnum } from "./rolledCharacter/type";
 import { AllBackgrounds } from "../types/backgrounds";
 import { RollCharacterButton } from "./rolledCharacter/RollCharacterButton";
+import { useParams } from "react-router-dom";
+import { BackgroundEnum } from "../types/backgroundEnum";
 
 const RollCharacter: FC = () => {
+  const { background } = useParams();
+
+  const characterBackground = useMemo(() => {
+    if (background) {
+      return getBackgroundEnumFromIndex(Number.parseInt(background))
+    }
+  }, [background]);
+
   const [open, setOpen] = React.useState(false);
-  const [character, setCharacter] = useState(rollCharacter());
+  const [character, setCharacter] = useState(
+    characterBackground ? rerollCharacter(characterBackground) : rollCharacter()
+  );
 
   const [previousCharacters, setPreviousCharacters] = useState<Character[]>([]);
   const [nextCharacters, setNextCharacters] = useState<Character[]>([]);
@@ -58,22 +70,25 @@ const RollCharacter: FC = () => {
     setOpen(false);
   }, [setOpen]);
 
-  const handleRollCharacter = useCallback((character: Character) => {
-    setPreviousCharacters([
-      ...previousCharacters,
-      ...nextCharacters,
+  const handleRollCharacter = useCallback(
+    (character: Character) => {
+      setPreviousCharacters([
+        ...previousCharacters,
+        ...nextCharacters,
+        character,
+      ]);
+      setNextCharacters([]);
+      setCharacter(character);
+    },
+    [
       character,
-    ]);
-    setNextCharacters([]);
-    setCharacter(character);
-  }, [
-    character,
-    previousCharacters,
-    nextCharacters,
-    setCharacter,
-    setPreviousCharacters,
-    setNextCharacters,
-  ]);
+      previousCharacters,
+      nextCharacters,
+      setCharacter,
+      setPreviousCharacters,
+      setNextCharacters,
+    ]
+  );
 
   const onSelectPreviousCharacter = useCallback(
     (selectedCharacter: Character, selectedCharacterIndex: number) => {
@@ -139,7 +154,6 @@ const RollCharacter: FC = () => {
           };
           break;
         case "Attributes":
-          console.log(character.attributes);
           rerolledCharacter = { ...character, attributes: rollAttributes() };
           break;
         case "Background details":
@@ -175,10 +189,10 @@ const RollCharacter: FC = () => {
         handleClose={handleClose}
         character={character}
       />
-      <Stack marginTop={4} gap={4}>
+      <Stack marginTop={4} gap={5}>
         <Stack direction="row" justifyContent={"space-between"}>
           <Stack direction="row" spacing={2}>
-            <RollCharacterButton onClick={handleRollCharacter}/>
+            <RollCharacterButton onClick={handleRollCharacter} />
 
             <CharacterHistoryButton
               label="Prev"
@@ -198,9 +212,9 @@ const RollCharacter: FC = () => {
               reversedIndexes={true}
             />
           </Stack>
-          <Stack>
-            <RerollCharacterButton onReroll={handleRerollCharacter} />
-          </Stack>
+
+          <RerollCharacterButton onReroll={handleRerollCharacter} />
+
           <Stack direction="row" spacing={2}>
             <Box>
               <Button
@@ -218,9 +232,7 @@ const RollCharacter: FC = () => {
             <Typography variant="h2">
               {getBackgroundName(character.background.name)}
             </Typography>
-            <RolledCharacter
-              character={character}
-            />
+            <RolledCharacter character={character} />
           </Stack>
         </Fade>
       </Stack>
