@@ -1,6 +1,5 @@
 import { FC, useCallback, useEffect, useState } from "react";
 import { Box, Button, Stack, Typography } from "@mui/material";
-import { BackgroundEnum } from "../types/backgroundEnum";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import AutorenewIcon from "@mui/icons-material/Autorenew";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
@@ -10,6 +9,8 @@ import ExportCharacterSheetDialog from "./generatedCharacter/ExportCharacterShee
 import { generateCharacter } from "../utils/roll";
 import GeneratedCharacter from "./GeneratedCharacter";
 import { Character } from "../types/character";
+import { CharacterHistoryButton } from "../component/splitButton/CharacterHistoryButton";
+import { getBackgroundName } from "../utils/background";
 
 const GenerateCharacter: FC = () => {
   const [open, setOpen] = React.useState(false);
@@ -47,23 +48,74 @@ const GenerateCharacter: FC = () => {
 
   const handleGenerateCharacter = useCallback(() => {
     const newCharacter = generateCharacter();
-    setPreviousCharacters([...previousCharacters, ...nextCharacters, character]);
-    setNextCharacters([])
+    setPreviousCharacters([
+      ...previousCharacters,
+      ...nextCharacters,
+      character,
+    ]);
+    setNextCharacters([]);
     setCharacter(newCharacter);
-  }, [character, previousCharacters, nextCharacters, setCharacter, setPreviousCharacters, setNextCharacters]);
+  }, [
+    character,
+    previousCharacters,
+    nextCharacters,
+    setCharacter,
+    setPreviousCharacters,
+    setNextCharacters,
+  ]);
+
+  const onSelectPreviousCharacter = useCallback(
+    (selectedCharacter: Character, selectedCharacterIndex: number) => {
+      let charactersAfterSelectedIndex: Character[] = [];
+      if (selectedCharacterIndex !== 0) {
+        charactersAfterSelectedIndex = previousCharacters.slice(
+          selectedCharacterIndex + 1
+        );
+      }
+      setNextCharacters([
+        ...nextCharacters,
+        character,
+        ...charactersAfterSelectedIndex,
+      ]);
+      setCharacter(selectedCharacter);
+      setPreviousCharacters([
+        ...previousCharacters.slice(0, selectedCharacterIndex),
+      ]);
+    },
+    [previousCharacters, character, nextCharacters, setNextCharacters]
+  );
+
+  const onSelectNextCharacter = useCallback(
+    (selectedCharacter: Character, selectedCharacterIndex: number) => {
+      let charactersBeforeSelectedIndex: Character[] = [];
+      if (selectedCharacterIndex !== 0) {
+        charactersBeforeSelectedIndex = nextCharacters.slice(
+          selectedCharacterIndex + 1
+        );
+      }
+      setPreviousCharacters([
+        ...previousCharacters,
+        ...charactersBeforeSelectedIndex,
+        character,
+      ]);
+      setCharacter(selectedCharacter);
+      setNextCharacters([...nextCharacters.slice(0, selectedCharacterIndex)]);
+    },
+    [previousCharacters, character, nextCharacters, setPreviousCharacters]
+  );
 
   const handlePreviousCharacter = useCallback(() => {
     const previousCharacter = previousCharacters[previousCharacters.length - 1];
-    setNextCharacters([character, ...nextCharacters]);
+    setNextCharacters([...nextCharacters, character]);
     setCharacter(previousCharacter);
     setPreviousCharacters([...previousCharacters.slice(0, -1)]);
   }, [previousCharacters, character, nextCharacters, setNextCharacters]);
 
   const handleNextCharacter = useCallback(() => {
-    const nextCharacter = nextCharacters[0];
+    const nextCharacter = nextCharacters[nextCharacters.length - 1];
     setPreviousCharacters([...previousCharacters, character]);
     setCharacter(nextCharacter);
-    setNextCharacters([...nextCharacters.slice(1)]);
+    setNextCharacters([...nextCharacters.slice(0, -1)]);
   }, [previousCharacters, character, nextCharacters, setPreviousCharacters]);
 
   return (
@@ -85,7 +137,12 @@ const GenerateCharacter: FC = () => {
                 Generate
               </Button>
             </Box>
-            <Box>
+
+            <CharacterHistoryButton
+              options={previousCharacters}
+              onChange={onSelectPreviousCharacter}
+              disabled={previousCharacters.length === 0}
+            >
               <Button
                 variant="outlined"
                 startIcon={<ArrowBackIosIcon />}
@@ -94,8 +151,13 @@ const GenerateCharacter: FC = () => {
               >
                 Prev
               </Button>
-            </Box>
-            <Box>
+            </CharacterHistoryButton>
+            <CharacterHistoryButton
+              options={nextCharacters}
+              onChange={onSelectNextCharacter}
+              disabled={nextCharacters.length === 0}
+              reversedIndexes={true}
+            >
               <Button
                 variant="outlined"
                 startIcon={<ArrowForwardIosIcon />}
@@ -104,7 +166,7 @@ const GenerateCharacter: FC = () => {
               >
                 Next
               </Button>
-            </Box>
+            </CharacterHistoryButton>
           </Stack>
           <Stack direction="row" spacing={2}>
             <Box>
@@ -120,7 +182,7 @@ const GenerateCharacter: FC = () => {
         </Stack>
         <Stack>
           <Typography variant="h2">
-            {BackgroundEnum[character.background.name].replace("_", " ")}
+            {getBackgroundName(character.background.name)}
           </Typography>
           <GeneratedCharacter character={character} />
         </Stack>
