@@ -38,7 +38,7 @@ const ExploreBackground: FC = () => {
     } else {
       navigate("/404");
     }
-  }, [background]);
+  }, [backgroundEnum, navigate]);
 
   const backgroundName = useMemo(() => {
     if (characterBackground) {
@@ -51,7 +51,7 @@ const ExploreBackground: FC = () => {
     if (backgroundEnum) {
       navigate(ROUTE_ROLL_BACKGROUND(backgroundEnum));
     }
-  }, [backgroundEnum]);
+  }, [backgroundEnum, navigate]);
 
   return (
     <>

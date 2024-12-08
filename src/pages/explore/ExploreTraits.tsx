@@ -1,6 +1,5 @@
 import { Stack, Typography } from "@mui/material";
 import { FC } from "react";
-import { Bonds } from "../../types/bonds";
 import { Die } from "../../types/die";
 import DoubleTable from "./table/DoubleTable";
 import {

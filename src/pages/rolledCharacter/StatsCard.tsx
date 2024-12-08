@@ -1,7 +1,6 @@
 import { Grid, Paper, Stack, Typography } from "@mui/material";
 import { FC } from "react";
 import { Attributes } from "../../types/attributes";
-import { pdfBorderColor } from "../../styles/theme";
 
 const StatsCard: FC<{
   attributes: Attributes;

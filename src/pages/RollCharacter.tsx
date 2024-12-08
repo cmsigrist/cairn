@@ -23,7 +23,6 @@ import { RerollOptionsEnum } from "./rolledCharacter/type";
 import { AllBackgrounds } from "../types/backgrounds";
 import { RollCharacterButton } from "./rolledCharacter/RollCharacterButton";
 import { useParams } from "react-router-dom";
-import { BackgroundEnum } from "../types/backgroundEnum";
 
 const RollCharacter: FC = () => {
   const { background } = useParams();
@@ -71,17 +70,16 @@ const RollCharacter: FC = () => {
   }, [setOpen]);
 
   const handleRollCharacter = useCallback(
-    (character: Character) => {
+    (newCharacter: Character) => {
       setPreviousCharacters([
         ...previousCharacters,
         ...nextCharacters,
-        character,
+        newCharacter,
       ]);
       setNextCharacters([]);
-      setCharacter(character);
+      setCharacter(newCharacter);
     },
     [
-      character,
       previousCharacters,
       nextCharacters,
       setCharacter,
