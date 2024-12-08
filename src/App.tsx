@@ -19,7 +19,7 @@ import {
   ROUTE_HOME,
 } from "./utils/routes";
 import PageNotFound from "./pages/PageNotFound";
-import GenerateCharacter from "./pages/GenerateCharacter";
+import RollCharacter from "./pages/RollCharacter";
 import ExploreBackground from "./pages/explore/ExploreBackground";
 import Explore from "./pages/Explore";
 import ExploreBonds from "./pages/explore/ExploreBonds";
@@ -46,7 +46,7 @@ function App() {
           >
             <Routes>
               <Route path={ROUTE_HOME} element={<Home />} />
-              <Route path={ROUTE_GENERATE} element={<GenerateCharacter />} />
+              <Route path={ROUTE_GENERATE} element={<RollCharacter />} />
               <Route path={ROUTE_EXPLORE} element={<Explore />} />
               <Route
                 path={`${ROUTE_EXPLORE}/background/:background`}

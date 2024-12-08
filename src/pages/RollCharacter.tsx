@@ -1,20 +1,32 @@
 import { FC, useCallback, useEffect, useState } from "react";
-import { Box, Button, Stack, Typography } from "@mui/material";
+import { Box, Button, Fade, Stack, Typography } from "@mui/material";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import AutorenewIcon from "@mui/icons-material/Autorenew";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import React from "react";
-import ExportCharacterSheetDialog from "./generatedCharacter/ExportCharacterSheetDialog";
-import { generateCharacter } from "../utils/roll";
-import GeneratedCharacter from "./GeneratedCharacter";
+import ExportCharacterSheetDialog from "./rolledCharacter/ExportCharacterSheetDialog";
+import {
+  rerollCharacter,
+  rollAttributes,
+  rollBackground as rollBackgroundDetails,
+  rollBond,
+  rollCharacter,
+  rollOmen,
+  rollTraits,
+} from "../utils/roll";
+import RolledCharacter from "./RolledCharacter";
 import { Character } from "../types/character";
-import { CharacterHistoryButton } from "../component/splitButton/CharacterHistoryButton";
+import { CharacterHistoryButton } from "./rolledCharacter/CharacterHistoryButton";
 import { getBackgroundName } from "../utils/background";
+import { CharacterRerollButton } from "./rolledCharacter/CharacterRerollButton";
+import { RerollOptionsEnum } from "./rolledCharacter/type";
+import { AllBackgrounds } from "../types/backgrounds";
 
-const GenerateCharacter: FC = () => {
+const RollCharacter: FC = () => {
   const [open, setOpen] = React.useState(false);
-  const [character, setCharacter] = useState(generateCharacter());
+  const [character, setCharacter] = useState(rollCharacter());
+
   const [previousCharacters, setPreviousCharacters] = useState<Character[]>([]);
   const [nextCharacters, setNextCharacters] = useState<Character[]>([]);
 
@@ -22,7 +34,7 @@ const GenerateCharacter: FC = () => {
     (event: any) => {
       if (event.key === "F5") {
         event.preventDefault();
-        setCharacter(generateCharacter());
+        setCharacter(rollCharacter());
       }
     },
     [setCharacter]
@@ -47,7 +59,7 @@ const GenerateCharacter: FC = () => {
   }, [setOpen]);
 
   const handleGenerateCharacter = useCallback(() => {
-    const newCharacter = generateCharacter();
+    const newCharacter = rollCharacter();
     setPreviousCharacters([
       ...previousCharacters,
       ...nextCharacters,
@@ -118,6 +130,45 @@ const GenerateCharacter: FC = () => {
     setNextCharacters([...nextCharacters.slice(0, -1)]);
   }, [previousCharacters, character, nextCharacters, setPreviousCharacters]);
 
+  const handleRerollCharacter = useCallback(
+    (option: RerollOptionsEnum) => {
+      let rerolledCharacter: Character;
+      switch (option) {
+        case "All":
+          rerolledCharacter = {
+            ...rerollCharacter(character.background.name),
+          };
+          break;
+        case "Attributes":
+          console.log(character.attributes);
+          rerolledCharacter = { ...character, attributes: rollAttributes() };
+          break;
+        case "Background details":
+          rerolledCharacter = {
+            ...character,
+            background: rollBackgroundDetails(
+              AllBackgrounds[character.background.name]
+            ),
+          };
+          break;
+        case "Traits":
+          rerolledCharacter = { ...character, traits: rollTraits() };
+          break;
+        case "Bond":
+          rerolledCharacter = { ...character, bond: rollBond() };
+          break;
+        case "Omen":
+          rerolledCharacter = { ...character, omen: rollOmen() };
+          break;
+        default:
+          rerolledCharacter = { ...character };
+      }
+
+      setCharacter(rerolledCharacter);
+    },
+    [character, setCharacter]
+  );
+
   return (
     <>
       <ExportCharacterSheetDialog
@@ -139,34 +190,25 @@ const GenerateCharacter: FC = () => {
             </Box>
 
             <CharacterHistoryButton
+              label="Prev"
+              startIcon={<ArrowBackIosIcon />}
+              onClick={handlePreviousCharacter}
               options={previousCharacters}
               onChange={onSelectPreviousCharacter}
               disabled={previousCharacters.length === 0}
-            >
-              <Button
-                variant="outlined"
-                startIcon={<ArrowBackIosIcon />}
-                onClick={handlePreviousCharacter}
-                disabled={previousCharacters.length === 0}
-              >
-                Prev
-              </Button>
-            </CharacterHistoryButton>
+            />
             <CharacterHistoryButton
+              label="Next"
+              startIcon={<ArrowForwardIosIcon />}
+              onClick={handleNextCharacter}
               options={nextCharacters}
               onChange={onSelectNextCharacter}
               disabled={nextCharacters.length === 0}
               reversedIndexes={true}
-            >
-              <Button
-                variant="outlined"
-                startIcon={<ArrowForwardIosIcon />}
-                onClick={handleNextCharacter}
-                disabled={nextCharacters.length === 0}
-              >
-                Next
-              </Button>
-            </CharacterHistoryButton>
+            />
+          </Stack>
+          <Stack>
+            <CharacterRerollButton onReroll={handleRerollCharacter} />
           </Stack>
           <Stack direction="row" spacing={2}>
             <Box>
@@ -180,15 +222,19 @@ const GenerateCharacter: FC = () => {
             </Box>
           </Stack>
         </Stack>
-        <Stack>
-          <Typography variant="h2">
-            {getBackgroundName(character.background.name)}
-          </Typography>
-          <GeneratedCharacter character={character} />
-        </Stack>
+        <Fade in>
+          <Stack>
+            <Typography variant="h2">
+              {getBackgroundName(character.background.name)}
+            </Typography>
+            <RolledCharacter
+              character={character}
+            />
+          </Stack>
+        </Fade>
       </Stack>
     </>
   );
 };
 
-export default GenerateCharacter;
+export default RollCharacter;

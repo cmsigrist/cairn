@@ -1,6 +1,6 @@
 import { FC } from "react";
 import cairn from "../resources/cairn.svg";
-import { Box, Button, Grid, Stack, Typography } from "@mui/material";
+import { Box, Button, Fade, Grid, Stack, Typography } from "@mui/material";
 import { width } from "../styles/theme";
 import { BackgroundEnum } from "../types/backgroundEnum";
 import { Link } from "react-router-dom";
@@ -17,65 +17,67 @@ const Explore: FC = () => {
     (value) => typeof value === "string"
   ) as string[];
   return (
-    <Stack direction={"row"} width={width} marginTop={10}>
-      <Box justifySelf="flex-start">
-        <img src={cairn} alt="" style={{ width: 430 }} />
-      </Box>
-      <Stack marginLeft={10}>
-        <Typography variant="h5" marginBottom={1}>
-          Explore Backgrounds:
-        </Typography>
-        <Grid marginLeft={2} container direction="column" height={"50%"}>
-          {backgrounds.map((background, i) => (
-            <Grid item key={i} xs={1}>
-              <Link
-                to={ROUTE_EXPLORE_BACKGROUND(i + 1)}
-                style={{ textDecoration: "none", color: "black" }}
+    <Fade in>
+      <Stack direction={"row"} width={width} marginTop={10}>
+        <Box justifySelf="flex-start">
+          <img src={cairn} alt="" style={{ width: 430 }} />
+        </Box>
+        <Stack marginLeft={10}>
+          <Typography variant="h5" marginBottom={1}>
+            Explore Backgrounds:
+          </Typography>
+          <Grid marginLeft={2} container direction="column" height={"50%"}>
+            {backgrounds.map((background, i) => (
+              <Grid item key={i} xs={1}>
+                <Link
+                  to={ROUTE_EXPLORE_BACKGROUND(i + 1)}
+                  style={{ textDecoration: "none", color: "black" }}
+                >
+                  <Button startIcon={<ArrowForwardIosIcon />}>
+                    {background.replace("_", " ")}
+                  </Button>
+                </Link>
+              </Grid>
+            ))}
+          </Grid>
+          <Stack marginTop={4}>
+            <Link
+              to={ROUTE_EXPLORE_BONDS}
+              style={{ textDecoration: "none", color: "black" }}
+            >
+              <Button
+                startIcon={<ArrowForwardIosIcon />}
+                sx={{ textTransform: "none" }}
               >
-                <Button startIcon={<ArrowForwardIosIcon />}>
-                  {background.replace("_", " ")}
-                </Button>
-              </Link>
-            </Grid>
-          ))}
-        </Grid>
-        <Stack marginTop={4}>
-          <Link
-            to={ROUTE_EXPLORE_BONDS}
-            style={{ textDecoration: "none", color: "black" }}
-          >
-            <Button
-              startIcon={<ArrowForwardIosIcon />}
-              sx={{ textTransform: "none" }}
+                <Typography variant="h5">Explore Bonds</Typography>
+              </Button>
+            </Link>
+            <Link
+              to={ROUTE_EXPLORE_OMENS}
+              style={{ textDecoration: "none", color: "black" }}
             >
-              <Typography variant="h5">Explore Bonds</Typography>
-            </Button>
-          </Link>
-          <Link
-            to={ROUTE_EXPLORE_OMENS}
-            style={{ textDecoration: "none", color: "black" }}
-          >
-            <Button
-              startIcon={<ArrowForwardIosIcon />}
-              sx={{ textTransform: "none" }}
+              <Button
+                startIcon={<ArrowForwardIosIcon />}
+                sx={{ textTransform: "none" }}
+              >
+                <Typography variant="h5">Explore Omens</Typography>
+              </Button>
+            </Link>
+            <Link
+              to={ROUTE_EXPLORE_TRAITS}
+              style={{ textDecoration: "none", color: "black" }}
             >
-              <Typography variant="h5">Explore Omens</Typography>
-            </Button>
-          </Link>
-          <Link
-            to={ROUTE_EXPLORE_TRAITS}
-            style={{ textDecoration: "none", color: "black" }}
-          >
-            <Button
-              startIcon={<ArrowForwardIosIcon />}
-              sx={{ textTransform: "none" }}
-            >
-              <Typography variant="h5">Explore Traits</Typography>
-            </Button>
-          </Link>
+              <Button
+                startIcon={<ArrowForwardIosIcon />}
+                sx={{ textTransform: "none" }}
+              >
+                <Typography variant="h5">Explore Traits</Typography>
+              </Button>
+            </Link>
+          </Stack>
         </Stack>
       </Stack>
-    </Stack>
+    </Fade>
   );
 };
 

@@ -1,4 +1,11 @@
-import { Box, ButtonBase, Stack, Typography, styled } from "@mui/material";
+import {
+  Box,
+  ButtonBase,
+  Fade,
+  Stack,
+  Typography,
+  styled,
+} from "@mui/material";
 import { FC } from "react";
 import character_creation from "../resources/character_creation.png";
 import explore_characters from "../resources/explore.png";
@@ -74,82 +81,88 @@ const Home: FC = () => {
   const navigate = useNavigate();
 
   return (
-    <Stack
-      direction="row"
-      width={"100%"}
-      height={"100%"}
-      justifyContent={"center"}
-      alignSelf={"center"}
-    >
-      <Box
-        sx={{
-          display: "flex",
-          flexWrap: "wrap",
-          width: "70%",
-        }}
+    <Fade in>
+      <Stack
+        direction="row"
+        width={"100%"}
+        height={"100%"}
+        justifyContent={"center"}
+        alignSelf={"center"}
       >
-        <ImageButton
-          focusRipple
-          style={{
-            width: "100%",
+        <Box
+          sx={{
+            display: "flex",
+            flexWrap: "wrap",
+            width: "70%",
           }}
-          onClick={() => navigate(ROUTE_GENERATE)}
         >
-          <ImageSrc style={{ backgroundImage: `url(${character_creation})` }} />
-          <ImageBackdrop className="MuiImageBackdrop-root" />
-          <Image>
-            <Typography
-              component="span"
-              variant="subtitle1"
-              color="inherit"
-              sx={{
-                position: "relative",
-                p: 4,
-                pt: 2,
-                pb: (theme) => `calc(${theme.spacing(1)} + 6px)`,
-              }}
-            >
-              Generate Character
-              <ImageMarked className="MuiImageMarked-root" />
-            </Typography>
-          </Image>
-        </ImageButton>
-      </Box>
-      <Box
-        sx={{
-          display: "flex",
-          flexWrap: "wrap",
-          width: "30%",
-        }}
-      >
-        <ImageButton
-          focusRipple
-          style={{
-            width: "100%",
+          <ImageButton
+            focusRipple
+            style={{
+              width: "100%",
+            }}
+            onClick={() => navigate(ROUTE_GENERATE)}
+          >
+            <ImageSrc
+              style={{ backgroundImage: `url(${character_creation})` }}
+            />
+            <ImageBackdrop className="MuiImageBackdrop-root" />
+            <Image>
+              <Typography
+                component="span"
+                variant="subtitle1"
+                color="inherit"
+                sx={{
+                  position: "relative",
+                  p: 4,
+                  pt: 2,
+                  pb: (theme) => `calc(${theme.spacing(1)} + 6px)`,
+                }}
+              >
+                Roll Character
+                <ImageMarked className="MuiImageMarked-root" />
+              </Typography>
+            </Image>
+          </ImageButton>
+        </Box>
+        <Box
+          sx={{
+            display: "flex",
+            flexWrap: "wrap",
+            width: "30%",
           }}
-          onClick={() => navigate(ROUTE_EXPLORE)}
         >
-          <ImageSrc style={{ backgroundImage: `url(${explore_characters})` }} />
-          <ImageBackdrop className="MuiImageBackdrop-root" />
-          <Image>
-            <Typography
-              component="span"
-              variant="subtitle1"
-              color="inherit"
-              sx={{
-                position: "relative",
-                p: 4,
-                pt: 2,
-                pb: (theme) => `calc(${theme.spacing(1)} + 6px)`,
-              }}
-            >
-              Explore Cairn
-              <ImageMarked className="MuiImageMarked-root" />
-            </Typography>
-          </Image>
-        </ImageButton>
-      </Box>
-    </Stack>
+          <ImageButton
+            focusRipple
+            style={{
+              width: "100%",
+            }}
+            onClick={() => navigate(ROUTE_EXPLORE)}
+          >
+            <ImageSrc
+              style={{ backgroundImage: `url(${explore_characters})` }}
+            />
+            <ImageBackdrop className="MuiImageBackdrop-root" />
+            <Image>
+              <Typography
+                component="span"
+                variant="subtitle1"
+                color="inherit"
+                sx={{
+                  position: "relative",
+                  p: 4,
+                  pt: 2,
+                  pb: (theme) => `calc(${theme.spacing(1)} + 6px)`,
+                }}
+              >
+                Explore Cairn
+                <ImageMarked className="MuiImageMarked-root" />
+              </Typography>
+            </Image>
+          </ImageButton>
+        </Box>
+      </Stack>
+    </Fade>
   );
 };
 
