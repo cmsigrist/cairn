@@ -1,7 +1,6 @@
 import { FC, useCallback, useEffect, useState } from "react";
 import { Box, Button, Fade, Stack, Typography } from "@mui/material";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
-import AutorenewIcon from "@mui/icons-material/Autorenew";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import React from "react";
@@ -19,9 +18,10 @@ import RolledCharacter from "./RolledCharacter";
 import { Character } from "../types/character";
 import { CharacterHistoryButton } from "./rolledCharacter/CharacterHistoryButton";
 import { getBackgroundName } from "../utils/background";
-import { CharacterRerollButton } from "./rolledCharacter/CharacterRerollButton";
+import { RerollCharacterButton } from "./rolledCharacter/RerollCharacterButton";
 import { RerollOptionsEnum } from "./rolledCharacter/type";
 import { AllBackgrounds } from "../types/backgrounds";
+import { RollCharacterButton } from "./rolledCharacter/RollCharacterButton";
 
 const RollCharacter: FC = () => {
   const [open, setOpen] = React.useState(false);
@@ -58,15 +58,14 @@ const RollCharacter: FC = () => {
     setOpen(false);
   }, [setOpen]);
 
-  const handleGenerateCharacter = useCallback(() => {
-    const newCharacter = rollCharacter();
+  const handleRollCharacter = useCallback((character: Character) => {
     setPreviousCharacters([
       ...previousCharacters,
       ...nextCharacters,
       character,
     ]);
     setNextCharacters([]);
-    setCharacter(newCharacter);
+    setCharacter(character);
   }, [
     character,
     previousCharacters,
@@ -179,15 +178,7 @@ const RollCharacter: FC = () => {
       <Stack marginTop={4} gap={4}>
         <Stack direction="row" justifyContent={"space-between"}>
           <Stack direction="row" spacing={2}>
-            <Box>
-              <Button
-                variant="contained"
-                startIcon={<AutorenewIcon />}
-                onClick={handleGenerateCharacter}
-              >
-                Generate
-              </Button>
-            </Box>
+            <RollCharacterButton onClick={handleRollCharacter}/>
 
             <CharacterHistoryButton
               label="Prev"
@@ -208,7 +199,7 @@ const RollCharacter: FC = () => {
             />
           </Stack>
           <Stack>
-            <CharacterRerollButton onReroll={handleRerollCharacter} />
+            <RerollCharacterButton onReroll={handleRerollCharacter} />
           </Stack>
           <Stack direction="row" spacing={2}>
             <Box>
