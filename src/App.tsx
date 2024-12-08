@@ -9,7 +9,7 @@ import Footer from "./layout/Footer";
 // Hooks
 // Utils
 import "./App.css";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { HashRouter as Router, Route, Routes } from "react-router-dom";
 import {
   ROUTE_EXPLORE,
   ROUTE_EXPLORE_BONDS,
@@ -32,7 +32,7 @@ import ExploreTraits from "./pages/explore/ExploreTraits";
 function App() {
   return (
     <Suspense fallback="...loading app">
-      <Router basename={process.env.PUBLIC_URL}>
+      <Router>
         <Stack minHeight={"100vh"} direction={"column"}>
           <ResponsiveAppBar />
           <Container
