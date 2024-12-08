@@ -1,5 +1,10 @@
 import { Attributes } from "../types/attributes";
-import { AllBackgrounds, Background } from "../types/backgrounds";
+import { BackgroundEnum } from "../types/backgroundEnum";
+import {
+  AllBackgrounds,
+  Background,
+  BackgroundOptions,
+} from "../types/backgrounds";
 import { Bonds } from "../types/bonds";
 import { Character } from "../types/character";
 import { Die } from "../types/die";
@@ -22,9 +27,10 @@ export const rollRand = (die: Die, number: number) => {
   return sum;
 };
 
-export const generateCharacter = () => {
-  const backgroundOptions = AllBackgrounds[rand(Die.d20)];
-  const background: Background = {
+export const rollBackground = (
+  backgroundOptions: BackgroundOptions
+): Background => {
+  return{
     name: backgroundOptions.name,
     description: backgroundOptions.description,
     playerName: backgroundOptions.playerNames[rand(Die.d10, true)],
@@ -45,13 +51,18 @@ export const generateCharacter = () => {
     ],
     img: backgroundOptions.img,
   };
-  const attributes: Attributes = {
+};
+
+export const rollAttributes = (): Attributes => {
+  return ({
     strength: rollRand(Die.d6, 3),
     dexterity: rollRand(Die.d6, 3),
     willpower: rollRand(Die.d6, 3),
-  };
-  const hitProtection = rand(Die.d6);
-  const traits: Traits = {
+  })
+}
+
+export const rollTraits = (): Traits => {
+  return ({
     physique: rand(Die.d10),
     skin: rand(Die.d10),
     hair: rand(Die.d10),
@@ -60,10 +71,35 @@ export const generateCharacter = () => {
     clothing: rand(Die.d10),
     virtue: rand(Die.d10),
     vice: rand(Die.d10),
-  };
-  const bond = Bonds[rand(Die.d20, true)];
+  })
+}
+
+export const rollBond = () => {
+  return Bonds[rand(Die.d20, true)]
+}
+
+export const rollOmen = () => {
+  return Omens[rand(Die.d20, true)]
+}
+
+export const rollCharacter = () => {
+  const backgroundOptions = AllBackgrounds[rand(Die.d20)];
+  return rollCharacterFromBackground(backgroundOptions)
+};
+
+export const rerollCharacter = (backgroundName: BackgroundEnum) => {
+  const backgroundOptions = AllBackgrounds[backgroundName];
+  return rollCharacterFromBackground(backgroundOptions)
+}
+
+export const rollCharacterFromBackground = (backgroundOptions: BackgroundOptions) => {
+  const background: Background = rollBackground(backgroundOptions);
+  const attributes: Attributes = rollAttributes();
+  const hitProtection = rand(Die.d6);
+  const traits: Traits = rollTraits();
   const age = rand(Die.d20) + rand(Die.d20) + 10;
-  const omen = Omens[rand(Die.d20, true)];
+  const bond = rollBond();
+  const omen = rollOmen() ;
 
   return new Character(
     background,
@@ -74,4 +110,4 @@ export const generateCharacter = () => {
     age,
     omen
   );
-};
+}

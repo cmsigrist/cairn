@@ -1,10 +1,10 @@
 import { FC } from "react";
 import { Character } from "../types/character";
 import { Box, Paper, Stack, Typography } from "@mui/material";
-import TraitsCard from "./generatedCharacter/TraitsCard";
-import StatsCard from "./generatedCharacter/StatsCard";
+import TraitsCard from "./rolledCharacter/TraitsCard";
+import StatsCard from "./rolledCharacter/StatsCard";
 
-const GeneratedCharacter: FC<{
+const RolledCharacter: FC<{
   character: Character;
 }> = ({ character }) => {
   return (
@@ -133,4 +133,4 @@ const GeneratedCharacter: FC<{
   );
 };
 
-export default GeneratedCharacter;
+export default RolledCharacter;

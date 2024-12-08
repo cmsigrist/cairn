@@ -14,17 +14,34 @@ import { Character } from "../../types/character";
 import { getBackgroundName } from "../../utils/background";
 
 type CharacterHistoryButtonProps = {
+  label: string;
+  startIcon: JSX.Element;
+  onClick: () => void;
+  disabled: boolean;
   options: Character[];
   onChange: (character: Character, index: number) => void;
-  disabled: boolean;
-  reversedIndexes?: boolean
+  reversedIndexes?: boolean;
 };
 
-export const CharacterHistoryButton: FC<PropsWithChildren<CharacterHistoryButtonProps>> = (props) => {
+export const CharacterHistoryButton: FC<
+  PropsWithChildren<CharacterHistoryButtonProps>
+> = ({
+  label,
+  startIcon,
+  onClick,
+  disabled,
+  options,
+  onChange,
+  reversedIndexes = false
+}) => {
   const [open, setOpen] = useState(false);
   const anchorRef = useRef<HTMLDivElement>(null);
-  const [selectedIndex, setSelectedIndex] = useState(1);
-  const { options, onChange, disabled = false, reversedIndexes = false } = props;
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
+  const handleClick = () => {
+    setOpen(false)
+    onClick()
+  }
 
   const handleMenuItemClick = (index: number) => {
     setSelectedIndex(index);
@@ -54,7 +71,14 @@ export const CharacterHistoryButton: FC<PropsWithChildren<CharacterHistoryButton
         ref={anchorRef}
         aria-label="Button group with a nested menu"
       >
-        {props.children}
+        <Button
+          variant="outlined"
+          startIcon={startIcon}
+          onClick={handleClick}
+          disabled={disabled}
+        >
+          {label}
+        </Button>
         <Button
           size="small"
           aria-controls={open ? "split-button-menu" : undefined}
@@ -68,7 +92,7 @@ export const CharacterHistoryButton: FC<PropsWithChildren<CharacterHistoryButton
         </Button>
       </ButtonGroup>
       <Popper
-        sx={{ zIndex: 1, minWidth : 200 }}
+        sx={{ zIndex: 1, minWidth: 200 }}
         open={open}
         anchorEl={anchorRef.current}
         placement="bottom-start"
@@ -88,7 +112,9 @@ export const CharacterHistoryButton: FC<PropsWithChildren<CharacterHistoryButton
               <ClickAwayListener onClickAway={handleClose}>
                 <MenuList id="split-button-menu" autoFocusItem>
                   {options.map((option, index) => {
-                    const o = reversedIndexes ? options[options.length - 1 - index]: option
+                    const o = reversedIndexes
+                      ? options[options.length - 1 - index]
+                      : option;
                     return (
                       <MenuItem
                         key={JSON.stringify(o)}
