@@ -25,7 +25,7 @@ import { useTheme } from "@mui/material/styles";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import CloseIcon from "@mui/icons-material/Close";
-import { ROUTE_EXPLORE, ROUTE_GENERATE, ROUTE_HOME } from "../utils/routes";
+import { ROUTE_EXPLORE, ROUTE_ROLL, ROUTE_HOME } from "../utils/routes";
 
 import logo from "../resources/cairn_logo_black_white_border.png";
 
@@ -102,13 +102,13 @@ function ResponsiveAppBar() {
                       <SearchIcon />
                     </IconButton>
                   </Stack>
-                  <NavLink to={ROUTE_GENERATE}>
+                  <NavLink to={ROUTE_ROLL}>
                     <Button
-                      key="explore"
+                      key="roll"
                       color="white"
                       onClick={handleCloseNavMenu}
                     >
-                      Generate
+                      Roll
                     </Button>
                   </NavLink>
                   <NavLink to={ROUTE_EXPLORE}>
@@ -132,13 +132,13 @@ function ResponsiveAppBar() {
                 display: { xs: "none", md: "flex" },
               }}
             >
-              <NavLink to={ROUTE_GENERATE}>
+              <NavLink to={ROUTE_ROLL}>
                 <Button
-                  key="explore"
+                  key="roll"
                   color="white"
                   onClick={handleCloseNavMenu}
                 >
-                  Generate
+                  Roll
                 </Button>
               </NavLink>
               <NavLink to={ROUTE_EXPLORE}>

@@ -1,3 +1,4 @@
+import { FC, useRef, useState } from "react";
 import {
   Button,
   ButtonGroup,
@@ -9,42 +10,26 @@ import {
   Popper,
 } from "@mui/material";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import { FC, useRef, useState } from "react";
-import { Character } from "../../types/character";
-import { getBackgroundName } from "../../utils/background";
+import CasinoIcon from '@mui/icons-material/Casino';
+import { rerollOptions, RerollOptionsEnum } from "./type";
 
-type CharacterHistoryButtonProps = {
-  label: string;
-  startIcon: JSX.Element;
-  onClick: () => void;
-  disabled: boolean;
-  options: Character[];
-  onChange: (character: Character, index: number) => void;
-  reversedIndexes?: boolean;
-};
+type RerollCharacterButtonProps = {
+  onReroll: (option: RerollOptionsEnum) => void
+}
 
-export const CharacterHistoryButton: FC<CharacterHistoryButtonProps> = ({
-  label,
-  startIcon,
-  onClick,
-  disabled,
-  options,
-  onChange,
-  reversedIndexes = false,
-}) => {
+export const RerollCharacterButton: FC<RerollCharacterButtonProps> = ({onReroll}) => {
   const [open, setOpen] = useState(false);
   const anchorRef = useRef<HTMLDivElement>(null);
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   const handleClick = () => {
-    setOpen(false);
-    onClick();
-  };
-
+    setOpen(false)
+    onReroll(RerollOptionsEnum.ALL);
+  }
   const handleMenuItemClick = (index: number) => {
     setSelectedIndex(index);
     setOpen(false);
-    onChange(options[index], index);
+    onReroll(rerollOptions[index])
   };
 
   const handleToggle = () => {
@@ -71,11 +56,10 @@ export const CharacterHistoryButton: FC<CharacterHistoryButtonProps> = ({
       >
         <Button
           variant="outlined"
-          startIcon={startIcon}
+          startIcon={<CasinoIcon />}
           onClick={handleClick}
-          disabled={disabled}
         >
-          {label}
+          Re-roll
         </Button>
         <Button
           size="small"
@@ -83,14 +67,13 @@ export const CharacterHistoryButton: FC<CharacterHistoryButtonProps> = ({
           aria-expanded={open ? "true" : undefined}
           aria-label="select merge strategy"
           aria-haspopup="menu"
-          disabled={disabled}
           onClick={handleToggle}
         >
           <ArrowDropDownIcon />
         </Button>
       </ButtonGroup>
       <Popper
-        sx={{ zIndex: 1, minWidth: 200 }}
+        sx={{ zIndex: 1, minWidth: 160 }}
         open={open}
         anchorEl={anchorRef.current}
         placement="bottom-start"
@@ -109,17 +92,14 @@ export const CharacterHistoryButton: FC<CharacterHistoryButtonProps> = ({
             <Paper>
               <ClickAwayListener onClickAway={handleClose}>
                 <MenuList id="split-button-menu" autoFocusItem>
-                  {options.map((option, index) => {
-                    const o = reversedIndexes
-                      ? options[options.length - 1 - index]
-                      : option;
+                  {rerollOptions.map((option, index) => {
                     return (
                       <MenuItem
-                        key={JSON.stringify(o)}
+                        key={option}
                         selected={index === selectedIndex}
                         onClick={() => handleMenuItemClick(index)}
                       >
-                        {getBackgroundName(o.background.name)}
+                        {option}
                       </MenuItem>
                     );
                   })}

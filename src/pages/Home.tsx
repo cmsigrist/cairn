@@ -11,7 +11,7 @@ import character_creation from "../resources/character_creation.png";
 import explore_characters from "../resources/explore.png";
 
 import { useNavigate } from "react-router-dom";
-import { ROUTE_EXPLORE, ROUTE_GENERATE } from "../utils/routes";
+import { ROUTE_EXPLORE, ROUTE_ROLL } from "../utils/routes";
 
 const ImageButton = styled(ButtonBase)(({ theme }) => ({
   position: "relative",
@@ -101,7 +101,7 @@ const Home: FC = () => {
             style={{
               width: "100%",
             }}
-            onClick={() => navigate(ROUTE_GENERATE)}
+            onClick={() => navigate(ROUTE_ROLL)}
           >
             <ImageSrc
               style={{ backgroundImage: `url(${character_creation})` }}

@@ -15,7 +15,7 @@ import {
   ROUTE_EXPLORE_BONDS,
   ROUTE_EXPLORE_OMENS,
   ROUTE_EXPLORE_TRAITS,
-  ROUTE_GENERATE,
+  ROUTE_ROLL,
   ROUTE_HOME,
 } from "./utils/routes";
 import PageNotFound from "./pages/PageNotFound";
@@ -46,7 +46,8 @@ function App() {
           >
             <Routes>
               <Route path={ROUTE_HOME} element={<Home />} />
-              <Route path={ROUTE_GENERATE} element={<RollCharacter />} />
+              <Route path={ROUTE_ROLL} element={<RollCharacter />} />
+              <Route path={`${ROUTE_ROLL}/:background`} element={<RollCharacter />} />
               <Route path={ROUTE_EXPLORE} element={<Explore />} />
               <Route
                 path={`${ROUTE_EXPLORE}/background/:background`}

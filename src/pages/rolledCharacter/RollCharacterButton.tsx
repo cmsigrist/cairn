@@ -10,26 +10,31 @@ import {
   Popper,
 } from "@mui/material";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import CasinoIcon from '@mui/icons-material/Casino';
-import { rerollOptions, RerollOptionsEnum } from "./type";
+import AutorenewIcon from "@mui/icons-material/Autorenew";
+import { rerollCharacter, rollCharacter } from "../../utils/roll";
+import { Character } from "../../types/character";
+import { BackgroundEnum } from "../../types/backgroundEnum";
+import { getBackgroundName } from "../../utils/background";
 
-type CharacterRerollButtonProps = {
-  onReroll: (option: RerollOptionsEnum) => void
+type RollCharacterButtonProps = {
+  onClick: (c: Character) => void
 }
-
-export const CharacterRerollButton: FC<CharacterRerollButtonProps> = ({onReroll}) => {
+export const RollCharacterButton: FC<RollCharacterButtonProps> = ({onClick}) => {
   const [open, setOpen] = useState(false);
   const anchorRef = useRef<HTMLDivElement>(null);
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const options: number[] = Object.keys(BackgroundEnum).filter(k => typeof BackgroundEnum[k as any] === 'string').map((item) => Number.parseInt(item));
 
   const handleClick = () => {
-    setOpen(false)
-    onReroll(RerollOptionsEnum.ALL);
-  }
-  const handleMenuItemClick = (index: number) => {
+    setOpen(false);
+    const newCharacter = rollCharacter();
+    onClick(newCharacter)
+  };
+  const handleMenuItemClick = (option: BackgroundEnum, index: number) => {
     setSelectedIndex(index);
     setOpen(false);
-    onReroll(rerollOptions[index])
+    const newCharacter = rerollCharacter(option);
+    onClick(newCharacter)
   };
 
   const handleToggle = () => {
@@ -50,16 +55,16 @@ export const CharacterRerollButton: FC<CharacterRerollButtonProps> = ({onReroll}
   return (
     <>
       <ButtonGroup
-        variant={"outlined"}
+        variant={"contained"}
         ref={anchorRef}
         aria-label="Button group with a nested menu"
       >
         <Button
-          variant="outlined"
-          startIcon={<CasinoIcon />}
+          variant="contained"
+          startIcon={<AutorenewIcon />}
           onClick={handleClick}
         >
-          Re-roll
+          Roll New
         </Button>
         <Button
           size="small"
@@ -73,7 +78,7 @@ export const CharacterRerollButton: FC<CharacterRerollButtonProps> = ({onReroll}
         </Button>
       </ButtonGroup>
       <Popper
-        sx={{ zIndex: 1, minWidth: 160 }}
+        sx={{ zIndex: 1, minWidth: 175 }}
         open={open}
         anchorEl={anchorRef.current}
         placement="bottom-start"
@@ -89,17 +94,17 @@ export const CharacterRerollButton: FC<CharacterRerollButtonProps> = ({onReroll}
                 placement === "bottom" ? "center top" : "center bottom",
             }}
           >
-            <Paper>
+            <Paper sx={{maxHeight: 400, overflow: "scroll"}}>
               <ClickAwayListener onClickAway={handleClose}>
                 <MenuList id="split-button-menu" autoFocusItem>
-                  {rerollOptions.map((option, index) => {
+                  {options.map((option, index) => {
                     return (
                       <MenuItem
                         key={option}
                         selected={index === selectedIndex}
-                        onClick={() => handleMenuItemClick(index)}
+                        onClick={() => handleMenuItemClick(option, index)}
                       >
-                        {option}
+                        {getBackgroundName(option)}
                       </MenuItem>
                     );
                   })}
