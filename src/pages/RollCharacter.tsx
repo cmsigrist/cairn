@@ -74,7 +74,7 @@ const RollCharacter: FC = () => {
       setPreviousCharacters([
         ...previousCharacters,
         ...nextCharacters,
-        newCharacter,
+        character,
       ]);
       setNextCharacters([]);
       setCharacter(newCharacter);
