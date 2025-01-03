@@ -1,10 +1,17 @@
 import { FC, useCallback, useEffect, useMemo, useState } from "react";
-import { Box, Button, Fade, Stack, Typography } from "@mui/material";
-import FileDownloadIcon from "@mui/icons-material/FileDownload";
+import {
+  Box,
+  Button,
+  Fade,
+  FormControlLabel,
+  Stack,
+  Switch,
+  Typography,
+} from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import React from "react";
-import ExportCharacterSheetDialog from "./rolledCharacter/ExportCharacterSheetDialog";
+import PrintIcon from "@mui/icons-material/Print";
+import PrintCharacterSheetDialog from "./rolledCharacter/PrintCharacterSheetDialog";
 import {
   rerollCharacter,
   rollAttributes,
@@ -17,7 +24,10 @@ import {
 import RolledCharacter from "./RolledCharacter";
 import { Character } from "../types/character";
 import { CharacterHistoryButton } from "./rolledCharacter/CharacterHistoryButton";
-import { getBackgroundEnumFromIndex, getBackgroundName } from "../utils/background";
+import {
+  getBackgroundEnumFromIndex,
+  getBackgroundName,
+} from "../utils/background";
 import { RerollCharacterButton } from "./rolledCharacter/RerollCharacterButton";
 import { RerollOptionsEnum } from "./rolledCharacter/type";
 import { AllBackgrounds } from "../types/backgrounds";
@@ -29,11 +39,12 @@ const RollCharacter: FC = () => {
 
   const characterBackground = useMemo(() => {
     if (background) {
-      return getBackgroundEnumFromIndex(Number.parseInt(background))
+      return getBackgroundEnumFromIndex(Number.parseInt(background));
     }
   }, [background]);
 
-  const [open, setOpen] = React.useState(false);
+  const [openPrint, setOpenPrint] = useState(false);
+  const [rollWithOmen, setRollWithOmen] = useState(true);
   const [character, setCharacter] = useState(
     characterBackground ? rerollCharacter(characterBackground) : rollCharacter()
   );
@@ -61,13 +72,17 @@ const RollCharacter: FC = () => {
     };
   }, []);
 
-  const handleClickOpen = useCallback(() => {
-    setOpen(true);
-  }, [setOpen]);
+  const handleOpenPrint = useCallback(() => {
+    setOpenPrint(true);
+  }, [setOpenPrint]);
 
-  const handleClose = useCallback(() => {
-    setOpen(false);
-  }, [setOpen]);
+  const handleClosePrint = useCallback(() => {
+    setOpenPrint(false);
+  }, [setOpenPrint]);
+
+  const handleRollWithOmen = useCallback(() => {
+    setRollWithOmen(!rollWithOmen);
+  }, [rollWithOmen, setRollWithOmen]);
 
   const handleRollCharacter = useCallback(
     (newCharacter: Character) => {
@@ -182,9 +197,9 @@ const RollCharacter: FC = () => {
 
   return (
     <>
-      <ExportCharacterSheetDialog
-        open={open}
-        handleClose={handleClose}
+      <PrintCharacterSheetDialog
+        open={openPrint}
+        handleClose={handleClosePrint}
         character={character}
       />
       <Stack marginTop={4} gap={5}>
@@ -211,16 +226,28 @@ const RollCharacter: FC = () => {
             />
           </Stack>
 
-          <RerollCharacterButton onReroll={handleRerollCharacter} />
+          <Stack direction={"row"} spacing={2}>
+            <RerollCharacterButton onReroll={handleRerollCharacter} />
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={rollWithOmen}
+                  onClick={handleRollWithOmen}
+                  defaultChecked
+                />
+              }
+              label="Roll With Omen"
+            />
+          </Stack>
 
           <Stack direction="row" spacing={2}>
             <Box>
               <Button
                 variant="outlined"
-                startIcon={<FileDownloadIcon />}
-                onClick={handleClickOpen}
+                startIcon={<PrintIcon />}
+                onClick={handleOpenPrint}
               >
-                Export
+                Print
               </Button>
             </Box>
           </Stack>
@@ -230,7 +257,7 @@ const RollCharacter: FC = () => {
             <Typography variant="h2">
               {getBackgroundName(character.background.name)}
             </Typography>
-            <RolledCharacter character={character} />
+            <RolledCharacter character={character} showOmen={rollWithOmen} />
           </Stack>
         </Fade>
       </Stack>
