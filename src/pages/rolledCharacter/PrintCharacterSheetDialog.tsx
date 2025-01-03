@@ -10,14 +10,14 @@ import {
   FormGroup,
   Switch,
 } from "@mui/material";
-import ExportedCharacterSheet from "./ExportedCharacterSheet";
+import PrintedCharacterSheet from "./PrintedCharacterSheet";
 import { Margin, usePDF } from "react-to-pdf";
 import { BackgroundEnum } from "../../types/backgroundEnum";
 import generatePDF from "react-to-pdf";
 import { LoadingButton } from "@mui/lab";
 import SaveIcon from "@mui/icons-material/Save";
 
-const ExportCharacterSheetDialog: FC<{
+const PrintCharacterSheetDialog: FC<{
   open: boolean;
   handleClose: () => void;
   character: Character;
@@ -48,9 +48,9 @@ const ExportCharacterSheetDialog: FC<{
       fullWidth
       maxWidth={"xl"}
     >
-      <DialogTitle id="alert-dialog-title">Export Character Sheet</DialogTitle>
+      <DialogTitle id="alert-dialog-title">Print Character Sheet</DialogTitle>
       <DialogContent>
-        <FormGroup sx={{ marginLeft: 4 }}>
+        {/* <FormGroup sx={{ marginLeft: 4 }}>
           <FormControlLabel
             control={
               <Switch
@@ -60,8 +60,8 @@ const ExportCharacterSheetDialog: FC<{
             }
             label="Layout Without Background"
           />
-        </FormGroup>
-        <ExportedCharacterSheet
+        </FormGroup> */}
+        <PrintedCharacterSheet
           targetRef={targetRef}
           character={character}
           simpleLayout={simpleLayout}
@@ -86,4 +86,4 @@ const ExportCharacterSheetDialog: FC<{
   );
 };
 
-export default ExportCharacterSheetDialog;
+export default PrintCharacterSheetDialog;

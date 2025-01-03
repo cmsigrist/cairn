@@ -6,7 +6,8 @@ import StatsCard from "./rolledCharacter/StatsCard";
 
 const RolledCharacter: FC<{
   character: Character;
-}> = ({ character }) => {
+  showOmen: boolean;
+}> = ({ character, showOmen }) => {
   return (
     <Stack marginTop={2} direction={"row"} spacing={8}>
       <Stack>
@@ -88,18 +89,20 @@ const RolledCharacter: FC<{
                 <Typography>{character.bond}</Typography>
               </Stack>
             </Paper>
-            <Paper elevation={3} sx={{ padding: 2, marginTop: 2 }}>
-              <Stack height={"100%"} justifyContent={"space-between"}>
-                <Typography
-                  marginBottom={2}
-                  textAlign={"center"}
-                  fontWeight={"bold"}
-                >
-                  Omen
-                </Typography>
-                <Typography>{character.omen}</Typography>
-              </Stack>
-            </Paper>
+            {showOmen && (
+              <Paper elevation={3} sx={{ padding: 2, marginTop: 2 }}>
+                <Stack height={"100%"} justifyContent={"space-between"}>
+                  <Typography
+                    marginBottom={2}
+                    textAlign={"center"}
+                    fontWeight={"bold"}
+                  >
+                    Omen
+                  </Typography>
+                  <Typography>{character.omen}</Typography>
+                </Stack>
+              </Paper>
+            )}
           </Stack>
         </Stack>
 

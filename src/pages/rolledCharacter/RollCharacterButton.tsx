@@ -30,6 +30,7 @@ export const RollCharacterButton: FC<RollCharacterButtonProps> = ({onClick}) => 
     const newCharacter = rollCharacter();
     onClick(newCharacter)
   };
+
   const handleMenuItemClick = (option: BackgroundEnum, index: number) => {
     setSelectedIndex(index);
     setOpen(false);

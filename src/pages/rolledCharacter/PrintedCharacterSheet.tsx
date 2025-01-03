@@ -8,7 +8,7 @@ import { Stats } from "./exportedCharacterSheet/Stats";
 import { LayoutWithBackgroundCharacterSheet } from "./exportedCharacterSheet/LayoutWithBackgroundCharacterSheet";
 import { SimpleLayoutCharacterSheet } from "./exportedCharacterSheet/SimpleLayoutCharacterSheet";
 
-const ExportedCharacterSheet: FC<{
+const PrintedCharacterSheet: FC<{
   character: Character;
   targetRef: React.MutableRefObject<any>;
   simpleLayout: boolean
@@ -86,4 +86,4 @@ const ExportedCharacterSheet: FC<{
   );
 };
 
-export default ExportedCharacterSheet;
+export default PrintedCharacterSheet;
